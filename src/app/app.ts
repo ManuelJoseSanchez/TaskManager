@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TaskList } from './component/task-list/task-list';
 import { TaskSumary } from './component/task-sumary/task-sumary';
-
+import { TaskFrom } from './component/task-from/task-from';
 @Component({
-  imports: [TaskList, TaskSumary],
+  imports: [TaskList, TaskSumary, TaskFrom],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

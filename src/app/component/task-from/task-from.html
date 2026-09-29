@@ -1,0 +1,39 @@
+<section class="task-from-section">
+    <div class="form-haeding">
+        <h2>Create a task</h2>
+        <p>Add a new to your workpace</p>
+    </div>
+
+    <form [formGroup]="taskFrom" (ngSubmit)="submitTask()">
+        <label>
+            <span>Task Title</span>
+            <input type="text" formControlName = "title" placeholder="Enter a task title"/>
+        </label>
+
+        <label >
+            <span>Description</span>
+            <textarea formControlName="description" rows="4" placeholder="Description the task"></textarea>
+        </label>
+
+        <div class="form-row">
+            <label >
+                <samp>Status</samp>
+                <select formArrayName="status">
+                    <option value="todo"> To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </label>
+
+            <label>
+                <span>Due date</span>
+                <input type="date" formArrayName="dueDate">
+            </label>
+        </div>
+
+        <button type="submit">
+            Add Task
+        </button>
+        
+    </form>
+</section>

@@ -45,4 +45,14 @@ export class TaskService {
   : task
   ))
  }
+
+public addTask(task:Omit<Task,'id'>): void{
+  this.tasksState.update((tasks)=>[
+    ...tasks,
+    {
+      ...task,
+      id: Date.now()
+    }
+  ]);
+}
 }
