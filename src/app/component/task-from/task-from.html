@@ -8,17 +8,41 @@
         <label>
             <span>Task Title</span>
             <input type="text" formControlName = "title" placeholder="Enter a task title"/>
+            @if(
+                taskFrom.controls.title.invalid &&
+                taskFrom.controls.title.touched
+            ){
+                <small class="field-error">
+                    @if(taskFrom.controls.title.hasError('required')){
+                        A task is required
+                    }@else if (taskFrom.controls.title.hasError('minlength')) {
+                        Entre at least 3 charecters
+                    }
+                </small>
+            }
         </label>
 
         <label >
             <span>Description</span>
             <textarea formControlName="description" rows="4" placeholder="Description the task"></textarea>
+             @if(
+                taskFrom.controls.description.invalid &&
+                taskFrom.controls.description.touched
+            ){
+                <small class="field-error">
+                    @if(taskFrom.controls.description.hasError('required')){
+                        A task is required
+                    }@else if (taskFrom.controls.description.hasError('minlength')) {
+                        Entre at least 10 charecters
+                    }
+                </small>
+            }
         </label>
 
         <div class="form-row">
             <label >
                 <samp>Status</samp>
-                <select formArrayName="status">
+                <select formControlName="status">
                     <option value="todo"> To Do</option>
                     <option value="in-progress">In Progress</option>
                     <option value="completed">Completed</option>
@@ -27,11 +51,18 @@
 
             <label>
                 <span>Due date</span>
-                <input type="date" formArrayName="dueDate">
+                <input type="date" formControlName="dueDate">
+                 @if(
+                taskFrom.controls.dueDate.invalid &&
+                taskFrom.controls.dueDate.touched
+            ){
+                <small class="field-error">
+                    Please select a due date
+                </small>
+            }
             </label>
         </div>
-
-        <button type="submit">
+        <button type="submit" [disabled]="taskFrom.invalid">
             Add Task
         </button>
         
