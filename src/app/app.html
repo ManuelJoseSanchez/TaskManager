@@ -2,8 +2,16 @@
   <header class="app-header">
     <h1>Task Manager</h1>
     <p>Organize your work ad keep track of what needs attention.</p>
+
+    <nav class="app-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Dashboard
+      </a>
+
+      <a routerLink="/new-task" routerLinkActive="active">
+        New Task
+      </a>
+    </nav>
   </header>
-  <app-task-from></app-task-from>
-  <app-task-sumary/>
-  <app-task-list/>
+  <router-outlet/>
 </main>
