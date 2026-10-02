@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { NewTask } from './pages/new-task/new-task';
 import { TaskDetails } from './pages/task-details/task-details';
+import { taskLimitGuard } from './guards/task-limit-guard';
 export const routes: Routes = [
     {
         path:'',
@@ -9,7 +10,8 @@ export const routes: Routes = [
     },
     {
         path:'new-task',
-        component:NewTask
+        component:NewTask,
+        canActivate:[taskLimitGuard]
     },
     {
         path:'tasks/:id',
