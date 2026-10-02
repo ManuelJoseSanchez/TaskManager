@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { TaskService } from '../../services/task-service';
+import { RouterLink } from '@angular/router';
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-task-list',
   styleUrl: './task-list.css',
   templateUrl: './task-list.html',

@@ -55,4 +55,8 @@ public addTask(task:Omit<Task,'id'>): void{
     }
   ]);
 }
+
+public getTaskById(taskId:number): Task | undefined{
+  return this.tasksState().find((task)=> task.id === taskId);
+}
 }

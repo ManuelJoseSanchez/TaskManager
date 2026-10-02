@@ -20,14 +20,14 @@
                 (click)="toggleCompletion(task.id)">
                     Toggle Completion
                 </button>
-
+                <a [routerLink]="['/tasks', task.id]">View Details</a>
                 <small>
                     Due: {{task.dueDate}}
                 </small>
             </article>
         }
         @empty {
-            <p>No tasks availeble</p>
+            <p>No tasks available</p>
         }
     </div>
 </section>
