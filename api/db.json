@@ -1,0 +1,33 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Design Dasbord",
+      "description": "Create the initial deshbord  layoud",
+      "status": "in-progress",
+      "dueDate": "2026-08-15"
+    },
+    {
+      "id": "2",
+      "title": "Review documentation",
+      "description": "Review the project documentation",
+      "status": "todo",
+      "dueDate": "2026-08-18"
+    },
+    {
+      "id": "3",
+      "title": "Prepare relase",
+      "description": "Prepare the aplication for release",
+      "status": "completed",
+      "dueDate": "2026-08-20"
+    },
+    {
+      "title": "Test of api",
+      "description": "Es una test de ejemplos",
+      "status": "completed",
+      "dueDate": "2026-10-09",
+      "id": "GaYwwCqbVCA"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

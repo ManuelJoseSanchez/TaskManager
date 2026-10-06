@@ -1,64 +1,53 @@
-import { Service, computed, signal } from '@angular/core';
+import { Service, computed, signal, inject } from '@angular/core';
 import { Task } from '../modeels/task';
+import { HttpClient } from '@angular/common/http';
 
 @Service()
 export class TaskService {
-    protected readonly tasksState = signal<Task[]>([
-        {
-          id:1,
-          title:'Design Dasbord',
-          description:'Create the initial deshbord  layoud',
-          status:'in-progress',
-          dueDate:'2026-08-15'
-        },
-        {
-          id:2,
-          title:'Review documentation',
-          description:'Review the project documentation',
-          status:'todo',
-          dueDate:'2026-08-18'
-        },
-        {
-          id:3,
-          title:'Prepare relase',
-          description:'Prepare the aplication for release',
-          status:'completed',
-          dueDate:'2026-08-20'
-        }
-      ]);
+    protected readonly tasksState = signal<Task[]>([]);
 
- public readonly tasks   = this.tasksState.asReadonly();
- public readonly taskCount = computed(()=> this.tasksState().length);
+  protected readonly http = inject(HttpClient);
+  private readonly apiUrl = 'http://localhost:3000/tasks';
 
- public readonly completedCount = computed(()=> this.tasksState().filter((task)=> task.status === 'completed').length);
+  public readonly tasks   = this.tasksState.asReadonly();
+  public readonly taskCount = computed(()=> this.tasksState().length);
 
- public readonly activeCount = computed(()=> this.tasksState().filter(task => task.status !== 'completed').length);
+  public readonly completedCount = computed(()=> this.tasksState().filter((task)=> task.status === 'completed').length);
 
- public toggleTaskCompletion(taskId: number): void {
-  this.tasksState.update((tasks)=>
-    tasks.map((task)=>
-    task.id === taskId
-  ?{
-    ...task,
-    status: task.status === 'completed' ? 'todo':'completed'
+  public readonly activeCount = computed(()=> this.tasksState().filter(task => task.status !== 'completed').length);
+
+  public constructor(){
+    this.loadTasks();
   }
-  : task
-  ))
- }
 
-public addTask(task:Omit<Task,'id'>): void{
-  this.tasksState.update((tasks)=>[
-    ...tasks,
-    {
-      ...task,
-      id: Date.now()
-    }
-  ]);
-}
+  public toggleTaskCompletion(taskId: number): void {
+    const task = this.getTaskById(taskId);
+    if(!task) return;
 
-public getTaskById(taskId:number): Task | undefined{
-  return this.tasksState().find((task)=> task.id === taskId);
-}
+    const newStatus: 'todo' | 'in-progress' | 'completed' = task.status === 'completed' ? 'todo' : 'completed';
 
-public readonly canCreateTask = computed(()=> this.tasksState().length < 5);
+    this.http.patch<Task>(`${this.apiUrl}/${taskId}`, { status: newStatus }).subscribe((updatedTask) => {
+      this.tasksState.update((tasks) =>
+        tasks.map((t) => (t.id === taskId ? updatedTask : t))
+      );
+    });
+  }
+
+  public addTask(task: Omit<Task,'id'>): void{
+    this.http.post<Task>(this.apiUrl, task).subscribe((newTask)=>{
+      this.tasksState.update((tasks)=> [...tasks, newTask]);
+    });
+  }
+
+  public getTaskById(taskId:number): Task | undefined{
+    return this.tasksState().find((task)=> task.id === taskId);
+  }
+
+  public readonly canCreateTask = computed(()=> this.tasksState().length < 5);
+
+  public loadTasks(): void {
+    this.http.get<Task[]>(this.apiUrl).subscribe((tasks)=>{
+      this.tasksState.set(tasks);
+    });
+  }
 }
